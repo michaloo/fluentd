@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# since I'm working with coreos vagrant box
+# and root path is read-only there I need to specify
+# different base path there - empty DOCKER_REMOTE_PATH
+# and DOCKER_CLIENT_PATH works fine if you have native docker
+
+APP="${DOCKER_REMOTE_PATH}${PWD#${DOCKER_CLIENT_PATH}}/:/app"
+
+docker run -it --rm \
+    -v $APP \
+    -v /var/run/docker.sock:/tmp/docker.sock \
+    -v /var/lib/docker:/var/lib/docker \
+    -e LOGGLY=$1 \
+    --entrypoint bash \
+    michaloo/fluentd \
+    -c bash

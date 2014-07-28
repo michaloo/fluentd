@@ -1,0 +1,31 @@
+## File input
+## read docker logs with tag=docker.container
+
+{{range $key, $value := .}}
+
+{{ $logs := $value.Env.LOG }}
+{{ if $logs }}
+
+<source>
+  type tail
+  format json
+  time_key time
+  path /var/lib/docker/containers/{{ $value.ID }}/{{ $value.ID }}-json.log
+  pos_file /var/lib/docker/containers/{{ $value.ID }}/{{ $value.ID }}-json.log.pos
+  tag docker.container.{{printf "%.*s" 12 $value.ID}}
+  rotate_wait 5
+</source>
+
+<match docker.container.{{printf "%.*s" 12 $value.ID}}>
+    type record_modifier
+    tag docker.filtered.{{printf "%.*s" 12 $value.ID}}
+    image {{ $value.Image }}
+</match>
+{{end}}
+
+{{ end }}
+
+<match docker.filtered.**>
+  type loggly
+  loggly_url https://logs-01.loggly.com/inputs/{{LOGGLY}}
+</match>
