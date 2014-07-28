@@ -11,7 +11,7 @@ docker run -it --rm \
     -v $APP \
     -v /var/run/docker.sock:/tmp/docker.sock \
     -v /var/lib/docker:/var/lib/docker \
-    -e LOGGLY=$1 \
+    --env-file .env \
     --entrypoint bash \
     michaloo/fluentd \
     -c bash

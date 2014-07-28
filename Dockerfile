@@ -2,7 +2,8 @@ FROM ubuntu:14.04
 MAINTAINER Michal Raczka me@michaloo.net
 
 RUN apt-get update && \
-    apt-get install -y curl wget supervisor ruby ruby-dev make
+    apt-get install -y curl wget supervisor ruby ruby-dev make python-pip && \
+    pip install supervisor-stdout
 
 RUN gem install fluentd --no-ri --no-rdoc && \
     fluent-gem install fluent-plugin-loggly fluent-plugin-record-modifier && \

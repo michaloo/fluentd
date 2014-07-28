@@ -1,10 +1,7 @@
 ## File input
 ## read docker logs with tag=docker.container
 
-{{range $key, $value := .}}
-
-{{ $logs := $value.Env.LOG }}
-{{ if $logs }}
+{{range $key, $value := .}}{{ $logs := $value.Env.LOG }}{{ if $logs }}
 
 <source>
   type tail
@@ -21,9 +18,7 @@
     tag docker.filtered.{{printf "%.*s" 12 $value.ID}}
     image {{ $value.Image }}
 </match>
-{{end}}
-
-{{ end }}
+{{end}}{{ end }}
 
 <match docker.filtered.**>
   type loggly
