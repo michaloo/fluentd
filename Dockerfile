@@ -26,6 +26,7 @@ ADD ./config /app/config
 WORKDIR /app
 
 ENV LOGGLY here_goes_the_loggly_url
+ENV LOGGLY_ENV production
 ENV DOCKER_HOST unix:///tmp/docker.sock
 
 CMD ["/app/bin/before_supervisord"]

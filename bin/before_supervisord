@@ -4,6 +4,6 @@ cp /app/config/app.conf /etc/supervisor/conf.d/app.conf
 
 mkdir -p /etc/fluentd
 
-sed -e 's/{{LOGGLY}}/'"$LOGGLY"'/' config/fluentd.tmpl > /root/fluentd.tmpl
+sed -e 's/{{LOGGLY}}/'"$LOGGLY"'/' -e 's/{{ENV}}/'"$LOGGLY_ENV"'/' config/fluentd.tmpl > /root/fluentd.tmpl
 
 exec /usr/bin/supervisord
