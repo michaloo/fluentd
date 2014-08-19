@@ -19,11 +19,15 @@
     image {{ $value.Image }}
     host ${hostname}
     name {{ $logs }}
-    env {{ENV}}
+    env {{ .Env.LOG_ENV }}
 </match>
 {{end}}{{ end }}
 
 <match docker.filtered.**>
-  type loggly
-  loggly_url https://logs-01.loggly.com/inputs/{{LOGGLY}}
+  type elasticsearch
+  host {{ .Env.ES_HOST }}
+  port {{ .Env.ES_PORT }}
+  index_name fluentd
+  type_name fluentd
+  logstash_format true
 </match>
