@@ -6,7 +6,7 @@ RUN apt-get update && \
     pip install supervisor-stdout
 
 RUN gem install fluentd --no-ri --no-rdoc && \
-    fluent-gem install fluent-plugin-elasticsearch fluent-plugin-record-modifier && \
+    fluent-gem install fluent-plugin-elasticsearch fluent-plugin-record-modifier fluent-plugin-exclude-filter && \
     mkdir /etc/fluentd/
 
 RUN cd /usr/local/bin && \
@@ -22,8 +22,11 @@ RUN cd /usr/local/bin && \
 ADD ./bin    /app/bin
 ADD ./config /app/config
 
-#RUN mkdir /app
+# RUN mkdir /app
 WORKDIR /app
+
+# RUN curl -L http://mmonit.com/monit/dist/binary/5.8.1/monit-5.8.1-linux-x64.tar.gz | \
+#     tar -xz --strip-components=2 -C /usr/local/bin monit-5.8.1/bin/monit
 
 ENV ES_HOST localhost
 ENV ES_PORT 9200

@@ -1,10 +1,10 @@
 #!/bin/bash
 
 cp /app/config/app.conf /etc/supervisor/conf.d/app.conf
-cp /app/config/fluentd.tmpl /root/fluentd.tmpl
+#cp /app/config/fluentd.tmpl /root/fluentd.tmpl
 
 mkdir -p /etc/fluentd
 
-#sed -e 's/{{ES_HOST}}/'"$ES_HOST"'/' -e 's/{{LOG_ENV}}/'"$LOG_ENV"'/' config/fluentd.tmpl > /root/fluentd.tmpl
+sed -e 's/{{LOG_ENV}}/'"$LOG_ENV"'/' config/fluentd.tmpl > /root/fluentd.tmpl
 
 exec /usr/bin/supervisord

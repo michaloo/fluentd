@@ -7,6 +7,7 @@
   type tail
   format json
   time_key time
+  time_format %Y-%m-%dT%H:%M:%S.%N%Z
   path /var/lib/docker/containers/{{ $value.ID }}/{{ $value.ID }}-json.log
   pos_file /var/lib/docker/containers/{{ $value.ID }}/{{ $value.ID }}-json.log.pos
   tag docker.container.{{printf "%.*s" 12 $value.ID}}
@@ -19,15 +20,23 @@
     image {{ $value.Image }}
     host ${hostname}
     name {{ $logs }}
-    env {{ .Env.LOG_ENV }}
+    env {{LOG_ENV}}
 </match>
 {{end}}{{ end }}
 
 <match docker.filtered.**>
-  type elasticsearch
-  host {{ .Env.ES_HOST }}
-  port {{ .Env.ES_PORT }}
-  index_name fluentd
-  type_name fluentd
-  logstash_format true
+  type exclude_filter
+  key stream
+  value stdout
+  regexp false # default false, string comparison
+  add_tag_prefix stderr
+</match>
+
+<match stderr.docker.filtered.**>
+    type elasticsearch
+    host {{ .Env.ES_HOST }}
+    port {{ .Env.ES_PORT }}
+    index_name fluentd
+    type_name fluentd
+    logstash_format true
 </match>
