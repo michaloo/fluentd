@@ -1,0 +1,16 @@
+#!/bin/bash
+
+mkdir -p /etc/fluentd
+echo '' > /etc/fluentd/fluentd.conf
+sed -e 's/{{LOG_ENV}}/'"$LOG_ENV"'/' config/fluentd.tmpl > /root/fluentd.tmpl
+
+set -m
+
+trap 'kill $(jobs -p)' EXIT
+#trap "exit" CHLD
+
+/usr/local/bin/fluentd -c /etc/fluentd/fluentd.conf &
+sleep 2
+/usr/local/bin/docker-gen -watch -notify "kill -s SIGHUP $!" /root/fluentd.tmpl /etc/fluentd/fluentd.conf &
+
+wait
