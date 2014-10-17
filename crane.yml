@@ -1,11 +1,13 @@
 containers:
-  - name: fluentd_it
+  fluentd_it:
     image: michaloo/fluentd
     dockerfile: .
     run:
       volume:
+        - ".:/app"
         - "/var/run/docker.sock:/tmp/docker.sock"
         - "/var/lib/docker:/var/lib/docker"
+      env-file: [".env"]
       interactive: true
       tty: true
       entrypoint: /bin/bash
@@ -13,7 +15,7 @@ containers:
         - -c
         - "bash"
       rm: true
-  - name: fluentd
+  fluentd_test:
     image: michaloo/fluentd
     dockerfile: .
     run:
