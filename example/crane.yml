@@ -1,0 +1,24 @@
+containers:
+    elasticsearch:
+        image: michaloo/elasticsearch
+        run:
+            publish: ["9200:9200"]
+            detach: true
+    fluentd:
+        image: michaloo/fluentd
+        run:
+            link:
+                - "elasticsearch:elasticsearch"
+            volume:
+                - "/var/run/docker.sock:/tmp/docker.sock"
+                - "/var/lib/docker:/var/lib/docker"
+            detach: true
+    log_producer:
+        image: ubuntu:14.04
+        run:
+            env: ["LOG=true"]
+            detach: true
+            cmd:
+             - bash
+             - -c
+             - 'while true; do >&2 echo "error"; sleep 1; done;'
