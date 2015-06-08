@@ -14,6 +14,4 @@ trap 'kill $(jobs -p)' EXIT
 
 /usr/local/bin/fluentd -c /etc/fluentd/fluentd.conf &
 sleep 2
-/usr/local/bin/docker-gen -watch -notify "kill -s 1 $!" /root/fluentd.tmpl /etc/fluentd/fluentd.conf &
-
-wait
+/usr/local/bin/docker-gen -watch -notify "kill -s 1 $!" /root/fluentd.tmpl /etc/fluentd/fluentd.conf
