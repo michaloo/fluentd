@@ -1,15 +1,15 @@
-FROM ubuntu:14.04
+FROM debian:jessie
 MAINTAINER Michal Raczka me@michaloo.net
 
 # install curl and fluentd deps
 RUN apt-get update \
-    && apt-get install -y curl libcurl4-openssl-dev ruby ruby-dev make
+    && apt-get install -y build-essential curl libcurl4-openssl-dev ruby ruby-dev
 
 # install fluentd with plugins
 RUN gem install fluentd --no-ri --no-rdoc \
     && fluent-gem install fluent-plugin-elasticsearch \
     fluent-plugin-record-modifier fluent-plugin-exclude-filter \
-    && mkdir /etc/fluentd/
+    && mkdir /etc/fluentd/ && gem list
 
 # install docker-gen
 RUN cd /usr/local/bin \
