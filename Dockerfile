@@ -34,5 +34,5 @@ RUN set -x  && \
     mkdir /etc/fluentd && \
     \
     cd /usr/local/bin && \
-    curl -sSL https://github.com/jwilder/docker-gen/releases/download/0.4.0/docker-gen-linux-amd64-0.4.0.tar.gz | tar -xzv
+    curl -sSL https://github.com/jwilder/docker-gen/releases/download/0.4.2/docker-gen-linux-amd64-0.4.2.tar.gz | tar -xzv
 
